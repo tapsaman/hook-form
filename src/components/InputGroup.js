@@ -21,7 +21,7 @@ function inputGroupStateReducer(action, current = {}) {
 				...action.props
 			}
 		}
-
+	
 	case INPUT_DEINIT:
 		return {
 			...current,

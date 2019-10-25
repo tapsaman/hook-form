@@ -1,18 +1,19 @@
-import React, { useState } from "react"
+import React from "react"
 import { render} from "react-dom"
 
-import HookForm from "../../src"
+import "./style.css"
+import ExampleFormWrap from "./components/ExampleFormWrap"
+import BasicForm, { basicFormCode } from "./components/BasicForm"
 
 function ExampleApp() {
-	const [output, setOutput] = useState({})
 	return (
 		<div>
-			<HookForm
-				onChange={setOutput}
+			<h1>hook-form examples</h1>
+			<h2>Basic</h2>
+			<ExampleFormWrap
+				Form={BasicForm}
+				code={basicFormCode}
 				/>
-			<pre>
-				{JSON.stringify(output, null, 4)}
-			</pre>
 		</div>
 	)
 }

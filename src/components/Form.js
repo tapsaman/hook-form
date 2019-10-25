@@ -10,15 +10,19 @@ function Form({ disabled, buttons, children, onChange, onSuccess }) {
 
 	return (
 		<form className="hook-form" onSubmit={handleSubmit}>
-			<h1>hello</h1>
-
-			<input type="text" onChange={onChange} defaultValue="gaaay" />
+			<input
+				type="text"
+				onChange={e => onChange(e.target.value)}
+				defaultValue="derp"
+				/>
 
 			<FormContextProvider value={{
 				disabled,
 			}}
 				>
-				{children}
+				<InputGroup>
+					{children}
+				</InputGroup>
 			</FormContextProvider>
 			<fieldset className="buttons-container" disabled={disabled}>
 				{buttons}

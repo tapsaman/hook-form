@@ -1,0 +1,48 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+h1 {
+	margin-bottom: 1em;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+#root {
+	width: 100vw;
+	padding: 15px 10px;
+	line-height: 1.5;
+}
+
+.source-container,
+.form-container,
+.output-container {
+	margin-bottom: 1em;
+}
+
+.syntax-highlighter {
+	margin: 0 !important;
+}
+
+.hook-form {
+	padding: 1em;
+}
+
+@media (min-width: 800px) {
+	.form-container,
+	.output-container {
+		display: inline-block;
+		width: 50%;
+		vertical-align: top;
+	}
+	.form-container {
+		padding-right: 7px;
+	}
+	.output-container {
+		padding-left: 7px;
+	}
+}
