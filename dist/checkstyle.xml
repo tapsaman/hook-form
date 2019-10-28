@@ -1,7 +1,0 @@
-[0m[0m
-[0m[4m/var/www/html/rc-form/src/components/Form.js[24m[0m
-[0m  [2m5:8[22m   [33mwarning[39m  'InputGroup' is defined but never used  [2mno-unused-vars[22m[0m
-[0m  [2m8:56[22m  [33mwarning[39m  'onSuccess' is defined but never used   [2mno-unused-vars[22m[0m
-[0m[0m
-[0m[33m[1m✖ 2 problems (0 errors, 2 warnings)[22m[39m[0m
-[0m[33m[1m[22m[39m[0m

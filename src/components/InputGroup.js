@@ -1,10 +1,16 @@
-import { useReducer } from "react"
+import React, { useReducer, useMemo } from "react"
+import PropTypes from "prop-types"
+
+import { FormContextProvider, useFormContext } from "../context"
 
 const INPUT_INIT = "INPUT_INIT"
 const INPUT_DEINIT = "INPUT_DEINIT"
 const INPUT_CHANGE = "INPUT_CHANGE"
 
-function inputGroupStateReducer(action, current = {}) {
+function inputGroupStateReducer(current, action) {
+	console.log("CURRENT", current)
+	console.log("ACTION", action)
+
 	switch (action.type) {
 
 	case INPUT_INIT:
@@ -35,25 +41,48 @@ function inputGroupStateReducer(action, current = {}) {
 }
 
 function useInputGroupReducer() {
-	const [inputs, dispatch] = useReducer(inputGroupStateReducer)
+	const [groupInputs, dispatch] = useReducer(inputGroupStateReducer, {})
 
 	return {
-		inputs,
-		inputInit:		(fkey, props) => dispatch({ type: INPUT_INIT, fkey, props }),
-		inputChange:	(fkey, props) => dispatch({ type: INPUT_CHANGE, fkey, props }),
-		inputDeinit:	(fkey) => dispatch({ type: INPUT_DEINIT, fkey })
+		groupInputs,
+		groupInputInit:		(fkey, props) => dispatch({ type: INPUT_INIT, fkey, props }),
+		groupInputChange:	(fkey, props) => dispatch({ type: INPUT_CHANGE, fkey, props }),
+		groupInputDeinit:	(fkey) => dispatch({ type: INPUT_DEINIT, fkey })
 	}
 }
 
-function InputGroup({ fkey }) {
+function InputGroup({ fkey, children }) {
 	const {
-		inputs,
-		inputInit,
-		inputDeinit,
-		inputChange
+		groupInputs,
+		groupInputInit,
+		groupInputDeinit,
+		groupInputChange
 	} = useInputGroupReducer()
 
-	return null
+	console.log("InputGroup render", groupInputs)
+
+	const { inputs, defaultValues, inputInit, inputDeinit, inputChange, globalkey } = useFormContext()
+	
+	useMemo(() => inputChange(groupInputs), [groupInputs])
+
+	return (
+		<FormContextProvider value={{
+			//defaultValues,
+			inputs:			groupInputs,
+			inputInit:		groupInputInit,
+			inputDeinit:	groupInputDeinit,
+			inputChange:	groupInputChange,
+			globalkey:		globalkey + "." + fkey
+		}}
+			>
+			{children}
+		</FormContextProvider>
+	)
+}
+
+InputGroup.propTypes = {
+	fkey:		PropTypes.string.isRequired,
+	children:	PropTypes.node
 }
 
 export default InputGroup

@@ -9,22 +9,27 @@ function Form({ disabled, buttons, children, onChange, onSuccess }) {
 	const handleSubmit = e => { e.preventDefault() }
 
 	return (
-		<form className="hook-form" onSubmit={handleSubmit}>
-			<input
-				type="text"
-				onChange={e => onChange(e.target.value)}
-				defaultValue="derp"
-				/>
-
-			<FormContextProvider value={{
-				disabled,
-			}}
+		<form
+			className="hook-form"
+			onSubmit={handleSubmit}
+			>
+			<FormContextProvider
+				value={{
+					disabled,
+					inputChange:	onChange,
+					globalkey:		"form",
+				}}
 				>
-				<InputGroup>
+				<InputGroup
+					fkey="@__form_root"
+					>
 					{children}
 				</InputGroup>
 			</FormContextProvider>
-			<fieldset className="buttons-container" disabled={disabled}>
+			<fieldset
+				className="buttons-container"
+				disabled={disabled}
+				>
 				{buttons}
 			</fieldset>
 		</form>
@@ -32,7 +37,6 @@ function Form({ disabled, buttons, children, onChange, onSuccess }) {
 }
 
 Form.propTypes = {
-	lazyValidation:	PropTypes.bool,
 	disabled:		PropTypes.bool,
 	buttons:		PropTypes.node,
 	children:		PropTypes.node,

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react"
+import PropTypes from "prop-types"
+
 import { useFormContext } from "../context"
+import InputRow from "./InputRow"
 
 function useMessageState() {
 	const [message, setMessage] = useState()
 	const setValidationMessage = (validation, prevMessage) => {
 		if (validation.message) {
 			setMessage({
-				message:	_message,
-				type:		!validation.pass
+				text:	validation.message,
+				type:	!validation.pass
 					?	"error"
 					:	validation.warn
 						?	"warning"
@@ -23,17 +26,17 @@ function useMessageState() {
 }
 
 
-function InputWrap({ fkey, defaultValue, disabled, validate, required, doNotStore, ...inputProps }) {
+function InputWrap({ fkey, label, defaultValue, disabled, validate, required, doNotStore, children, ...inputProps }) {
 	const { inputs, defaultValues, inputInit, inputDeinit, inputChange, globalkey } = useFormContext()
 	const { message, setValidationMessage } = useMessageState()
 
-	const value = inputs[fkey].value !== undefined
+	const value = inputs[fkey] && inputs[fkey].value !== undefined
 		?	inputs[fkey].value
 		:	(defaultValues && defaultValues[fkey] !== undefined
 			?	defaultValues[fkey]
 			:	defaultValue)
 
-	const isValid = inputs[fkey].isValid
+	const isValid = inputs[fkey] && inputs[fkey].isValid
 	
 	useEffect(
 		() => inputInit(fkey, {
@@ -43,48 +46,53 @@ function InputWrap({ fkey, defaultValue, disabled, validate, required, doNotStor
 		}),
 		[fkey, doNotStore, globalkey]
 	)
+
 	useEffect(
 		() => () => inputDeinit(fkey),
 		[fkey]
 	)
 
+	const onChange = _value => {
+		let _isValid = true
+
+		if (validate) {
+			const validation = validate(_value, fkey, inputs)
+
+			setValidationMessage(validation, message)
+
+			_isValid = validation.pass
+
+			if ("newValue" in validation)
+				_value = validation.newValue
+		}
+		else if (required && _value === undefined) {
+			const validation = { pass: false, message: "Value is required" }
+
+			setValidationMessage(validation, message)
+
+			_isValid = false
+		}
+
+		if (_value !== value || _isValid !== isValid)
+			inputChange(fkey, {
+				value:		_value,		
+				isValid:	_isValid
+			})
+	}
+
 	return (
 		<InputRow
 			label={label}
 			message={message}
-			//className={wrapClassName}
 			required={required}
-			hint={hint}
+			//className={wrapClassName}
+			//hint={hint}
 			>
 			{React.cloneElement(children, {
 				value:		value,
 				label:		label,
 				disabled:	disabled,
-				onChange:	_value => {
-					let _isValid = true
-
-					if (validate) {
-						const validation = validate(_value, fkey, inputs)
-
-						setValidationMessage(validation, message)
-
-						_isValid = validation.pass
-
-						if ("newValue" in validation)
-							_value = validation.newValue
-					}
-					else if (required && _value === undefined) {
-						setMessage({ type: "error", message: "Value is required" })
-
-						_isValid = false
-					}
-
-					if (_value !== value || _isValid !== isValid)
-						inputChange(fkey, {
-							value:		_value,		
-							isValid:	_isValid
-						})
-				},
+				onChange:	onChange,
 				...inputProps
 			})}
 		</InputRow>
@@ -94,10 +102,12 @@ function InputWrap({ fkey, defaultValue, disabled, validate, required, doNotStor
 InputWrap.propTypes = {
 	fkey:			PropTypes.string.isRequired,
 	defaultValue:	PropTypes.any,
+	label:			PropTypes.node,
 	validate:		PropTypes.func,
 	disabled:		PropTypes.bool,
 	required:		PropTypes.bool,
-	doNotStore:		PropTypes.bool
+	doNotStore:		PropTypes.bool,
+	children:		PropTypes.node
 }
 
 const inputProps = {
@@ -106,6 +116,22 @@ const inputProps = {
 	isValid:		false,
 	value:			undefined
 }
+
+function withInputWrap(Input, defaultWrapProps) {
+	return function WrappedInput(props) {
+		return (
+			<InputWrap
+				{...defaultWrapProps}
+				{...props}
+				>
+				<Input />
+			</InputWrap>
+		)
+	}
+}
+
+export default InputWrap
+export { withInputWrap }
 
 /*
 const { forwardRef, useRef, useImperativeHandle } = React;
