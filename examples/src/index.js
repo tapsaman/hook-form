@@ -1,7 +1,9 @@
 import React from "react"
 import { render} from "react-dom"
 
-import "./style.css"
+import "./style.less"
+import "../../src/style.less"
+import "../../src/skin.less"
 import ExampleFormWrap from "./components/ExampleFormWrap"
 import BasicForm, { basicFormCode } from "./components/BasicForm"
 

@@ -25,24 +25,26 @@ function useMessageState() {
 	return { message, setValidationMessage }
 }
 
-
-function InputWrap({ fkey, label, defaultValue, disabled, validate, required, doNotStore, children, ...inputProps }) {
+function InputWrap({ fkey, label, defaultValue, disabled, validate, doNotStore, wrapClassName, children, ...inputProps }) {
 	const { inputs, defaultValues, inputInit, inputDeinit, inputChange, globalkey } = useFormContext()
 	const { message, setValidationMessage } = useMessageState()
 
-	const value = inputs[fkey] && inputs[fkey].value !== undefined
-		?	inputs[fkey].value
+	const input = inputs[fkey]
+
+	const value = input && input.value !== undefined
+		?	input.value
 		:	(defaultValues && defaultValues[fkey] !== undefined
 			?	defaultValues[fkey]
 			:	defaultValue)
 
-	const isValid = inputs[fkey] && inputs[fkey].isValid
+	const isValid = input && input.isValid
 	
 	useEffect(
 		() => inputInit(fkey, {
 			value,
 			doNotStore,
-			globalkey:	globalkey + "." + fkey
+			isValid:		validate ? !!validate(value, fkey, inputs).pass : true,
+			//globalkey:	globalkey + "." + fkey
 		}),
 		[fkey, doNotStore, globalkey]
 	)
@@ -60,17 +62,10 @@ function InputWrap({ fkey, label, defaultValue, disabled, validate, required, do
 
 			setValidationMessage(validation, message)
 
-			_isValid = validation.pass
+			_isValid = !!validation.pass
 
 			if ("newValue" in validation)
 				_value = validation.newValue
-		}
-		else if (required && _value === undefined) {
-			const validation = { pass: false, message: "Value is required" }
-
-			setValidationMessage(validation, message)
-
-			_isValid = false
 		}
 
 		if (_value !== value || _isValid !== isValid)
@@ -84,8 +79,7 @@ function InputWrap({ fkey, label, defaultValue, disabled, validate, required, do
 		<InputRow
 			label={label}
 			message={message}
-			required={required}
-			//className={wrapClassName}
+			className={wrapClassName}
 			//hint={hint}
 			>
 			{React.cloneElement(children, {
@@ -105,8 +99,8 @@ InputWrap.propTypes = {
 	label:			PropTypes.node,
 	validate:		PropTypes.func,
 	disabled:		PropTypes.bool,
-	required:		PropTypes.bool,
 	doNotStore:		PropTypes.bool,
+	wrapClassName:	PropTypes.string,
 	children:		PropTypes.node
 }
 

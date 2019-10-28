@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 
 import { FormContextProvider } from "../context"
 import InputGroup from "./InputGroup"
-import "../style.css"
 
 function Form({ disabled, buttons, children, onChange, onSuccess }) {
 	const handleSubmit = e => { e.preventDefault() }
@@ -26,12 +25,15 @@ function Form({ disabled, buttons, children, onChange, onSuccess }) {
 					{children}
 				</InputGroup>
 			</FormContextProvider>
-			<fieldset
-				className="buttons-container"
-				disabled={disabled}
-				>
-				{buttons}
-			</fieldset>
+			{buttons
+				?	<fieldset
+						className="buttons-container"
+						disabled={disabled}
+						>
+						{buttons}
+					</fieldset>
+				:	null
+			}
 		</form>
 	)
 }

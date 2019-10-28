@@ -1,0 +1,95 @@
+
+.hook-form {
+
+	input[type="text"],
+	input[type="email"],
+	input[type="password"] {
+		font-size: inherit;
+		background: none;
+		border: 0;
+		border-bottom: 3px solid #ddd;
+		color: inherit;
+	}
+
+	.input-row {
+		display: block;
+
+		select, 
+		input[type="text"],
+		input[type="email"],
+		input[type="password"] {
+			width: 100%;
+		}
+
+		.input-hint {
+			font-style: italic;
+			font-size: 85%;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			opacity: .7;
+		}
+		.input-error {
+			font-style: italic;
+			font-size: 85%;
+			color: #f55;
+			animation: fadeIn .5s linear forwards;
+		}
+		.required-mark {
+			color: #f55;
+		}
+		.input-cell {
+			padding-bottom: 16px;
+		}
+	}
+
+	.button-cont {
+		text-align: center;
+		margin-top: 25px 0 13px;
+		padding: 0;
+		border: 0;
+	}
+
+	.password-input .input-cont {
+		position: relative;
+		padding-left: 20px;
+
+		.show-password-toggle {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	}
+
+	.addable-input {
+		.addable-input-control {
+			text-align: center;
+
+			> .count {
+				display: inline-block;
+				min-width: 50px;
+				padding: 0 10px;
+			}
+		}
+		.addable-item {
+			padding: 10px;
+
+			&:nth-child(even) {
+				background-color: #ccc;
+			}
+		}
+	}
+
+	.radio-label {
+		white-space: nowrap;
+		margin-right: 20px;
+
+		.radio-label-text {
+			margin-left: 5px;
+		}
+	}
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}

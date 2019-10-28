@@ -49,7 +49,8 @@ TextInput.defaultProps = {
 	immediate:			false
 }
 
-export default withInputWrap(
+export default TextInput
+export const FormTextInput = withInputWrap(
 	TextInput,
 	{ defaultValue: "" }
 )
