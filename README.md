@@ -4,6 +4,8 @@ React form component with common inputs, build with 16.3^ React hooks.
 
 ## Example usage ##
 
+See the [live examples](https://tapsaman.github.io/hook-form/).
+
 ```JSX
 import HookForm, { TextInput, PasswordInput, InputTable } from "hook-form"
 
