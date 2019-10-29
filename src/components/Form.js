@@ -1,22 +1,25 @@
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 
 import { FormContextProvider } from "../context"
 import InputGroup from "./InputGroup"
 
-function Form({ disabled, buttons, children, onChange, onSuccess }) {
-	const handleSubmit = e => { e.preventDefault() }
+function Form({ disabled, buttons, children, onChange }) {
+	const [showPasswords, setShowPasswords] = useState(false)
+	const toggleShowPasswords = () => setShowPasswords(!showPasswords)
 
 	return (
 		<form
 			className="hook-form"
-			onSubmit={handleSubmit}
+			onSubmit={e => e.preventDefault() }
 			>
 			<FormContextProvider
 				value={{
+					inputChange:			onChange,
+					globalkey:				"form",
 					disabled,
-					inputChange:	onChange,
-					globalkey:		"form",
+					toggleShowPasswords,
+					showPasswords
 				}}
 				>
 				<InputGroup

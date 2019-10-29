@@ -1,61 +1,86 @@
-import React from "react"
+import React, { useState } from "react"
 
 import HookForm, { TextInput, InputTable } from "../../../src"
 
 function BasicForm(props) {
+	const [lazyLen, setLazyLen] = useState(0)
+	const [immediateLen, setImmediateLen] = useState(0)
+
 	return (
 		<HookForm
 			{...props}
 			buttons={null}
 			>
-			<h4>Create user</h4>
-			<InputTable>
-				<TextInput
-					fkey="username"
-					label="User name"
-					defaultValue="Petteri"
-					maxLength={15}
-					/>
-				<TextInput
-					fkey="email"
-					label="Email address"
-					type="email"
-					validate={value =>
-					{
-						if (value && !/\S+@\S+\.\S+/.test(value))
-							return { pass: false, message: "Not a valid email address" }
-						
-						return { pass: true }
-					}}
-					/>
-				<TextInput
-					fkey="number"
-					label="Age"
-					placeholder="Write your age (0-100)"
-					defaultValue="-5"
-					validate={value => {
-						if (isNaN(value))
-							return { pass: false, message: "Value is not a number" }
-						if (value < 0)
-							return { message: "Value can't be negative" }
-						if (value > 100)
-							return { pass: false, message: "Value can't be over 100" }
-						
-						return { pass: true, newValue: value + " years" }
-					}}
-					/>
-			</InputTable>
+			<div>
+				{/*
+					Inputs can be anywhere as long as
+					they are wrapped by a HookForm component
+				*/}
+				<InputTable>
+					<TextInput
+						fkey="lazy"
+						label="Lazy check"
+						validate={value =>
+						{
+							setLazyLen(value.length)
+							return { pass: true }
+						}}
+						hint={"Length: " + lazyLen}
+						placeholder="Write something here"
+						/>
+					<TextInput
+						fkey="immediate"
+						label="Immediate check"
+						immediate={true}
+						validate={value =>
+						{
+							setImmediateLen(value.length)
+							return { pass: true }
+						}}
+						hint={"Length: " + immediateLen}
+						placeholder="Write something here"
+						/>	
+				</InputTable>
+			</div>
 		</HookForm>
 	)
 }
 
-const basicFormCode = "function BasicForm(props) {\n\
+const basicFormCode = 'function BasicForm(props) {\n\
+	const [lazyLen, setLazyLen] = useState(0)\n\
+	const [immediateLen, setImmediateLen] = useState(0)\n\
+\n\
 	return (\n\
-		<HookForm {...props}>\n\
-			<p>this is the basic form example</p>\n\
+		<HookForm\n\
+			{...props}\n\
+			buttons={null}\n\
+			>\n\
+			<InputTable>\n\
+				<TextInput\n\
+					fkey="lazy"\n\
+					label="Lazy check"\n\
+					validate={value =>\n\
+					{\n\
+						setLazyLen(value.length)\n\
+						return { pass: true }\n\
+					}}\n\
+					hint={"Length: " + lazyLen}\n\
+					/>\n\
+				<TextInput\n\
+					fkey="immediate"\n\
+					label="Immediate check"\n\
+					immediate={true}\n\
+					validate={value =>\n\
+					{\n\
+						setImmediateLen(value.length)\n\
+						return { pass: true }\n\
+					}}\n\
+					hint={"Length: " + immediateLen}\n\
+					/>	\n\
+			</InputTable>\n\
 		</HookForm>\n\
 	)\n\
-}"
+}'
 
 export default BasicForm
 export { basicFormCode }

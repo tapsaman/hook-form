@@ -45,10 +45,10 @@ module.exports = {
 			"off",
 			"unix"
 		],
-		"quotes": [
+		/*"quotes": [
 			"error",
 			"double"
-		],
+		],*/
 		"semi": [
 			"error",
 			"never"

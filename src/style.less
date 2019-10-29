@@ -76,13 +76,17 @@
 	}
 
 	.password-input .input-cont {
-		position: relative;
-		padding-left: 20px;
+		display: table;
+		width: 100%;
 
-		.show-password-toggle {
-			position: absolute;
-			left: 0;
-			top: 0;
+		.toggle-cont {
+			display: table-cell;
+			width: 1px;
+			padding-right: 1em;
+		}
+		input {
+			display: table-cell;
+			width: 100%;
 		}
 	}
 

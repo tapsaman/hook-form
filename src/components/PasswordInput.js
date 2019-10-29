@@ -10,16 +10,18 @@ function PasswordInput({ showButton, hideButton, ...inputProps }) {
 
 	return (
 		<Fragment>
-			{toggleShowPasswords
-				?	React.cloneElement(
-					showPasswords ? hideButton : showButton, 
-					{
-						disabled:	disabled,
-						onCĺick:	toggleShowPasswords,
-						...inputProps
-					})
-				:	null
-			}
+			<div className="toggle-cont">
+				{toggleShowPasswords
+					?	React.cloneElement(
+						showPasswords ? hideButton : showButton, 
+						{
+							disabled:	disabled,
+							onClick:	toggleShowPasswords,
+							...inputProps
+						})
+					:	null
+				}
+			</div>
 			<TextInput
 				{...inputProps}
 				disabled={disabled}
@@ -35,12 +37,12 @@ PasswordInput.propTypes = {
 }
 
 PasswordInput.defaultProps = {
-	showButton:			<button>Show</button>,
-	hideButton:			<button>Hide</button>
+	showButton:			<button className="show-password-toggle">Show</button>,
+	hideButton:			<button className="show-password-toggle">Hide</button>
 }
 
 export default PasswordInput
-export const FormTextInput = withInputWrap(
+export const FormPasswordInput = withInputWrap(
 	PasswordInput,
 	{
 		defaultValue: "",
