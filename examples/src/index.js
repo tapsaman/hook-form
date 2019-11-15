@@ -7,6 +7,7 @@ import "../../src/skin.less"
 import ExampleFormWrap from "./components/ExampleFormWrap"
 import BasicForm, { basicFormCode } from "./components/BasicForm"
 import ValidatedForm, { validatedFormCode } from "./components/ValidatedForm"
+import SubgroupForm, { subgroupFormCode } from "./components/SubgroupForm"
 
 function ExampleApp() {
 	return (
@@ -21,6 +22,11 @@ function ExampleApp() {
 			<ExampleFormWrap
 				Form={ValidatedForm}
 				code={validatedFormCode}
+				/>
+			<h2>Subgrouped form</h2>
+			<ExampleFormWrap
+				Form={SubgroupForm}
+				code={subgroupFormCode}
 				/>
 		</div>
 	)

@@ -4,6 +4,10 @@ import PropTypes from "prop-types"
 import { FormContextProvider } from "../context"
 import InputGroup from "./InputGroup"
 
+function preventEventDefault(e) {
+	e.preventDefault()
+}
+
 function Form({ disabled, buttons, children, onChange }) {
 	const [showPasswords, setShowPasswords] = useState(false)
 	const toggleShowPasswords = () => setShowPasswords(!showPasswords)
@@ -11,19 +15,19 @@ function Form({ disabled, buttons, children, onChange }) {
 	return (
 		<form
 			className="hook-form"
-			onSubmit={e => e.preventDefault() }
+			onSubmit={preventEventDefault}
 			>
 			<FormContextProvider
 				value={{
-					inputChange:			onChange,
-					globalkey:				"form",
+					inputChange:	(fkey, inputs) => onChange(inputs),
+					globalkey:		"form",
 					disabled,
 					toggleShowPasswords,
 					showPasswords
 				}}
 				>
 				<InputGroup
-					fkey="@__form_root"
+					fkey="@@@__form_root"
 					>
 					{children}
 				</InputGroup>
@@ -52,6 +56,5 @@ Form.propTypes = {
 Form.defaultProps = {
 	buttons:		<button type="submit">Submit</button>
 }
-
 
 export default Form

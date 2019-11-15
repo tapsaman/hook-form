@@ -30,7 +30,7 @@ function InputGroup({ fkey, children }) {
 
 	const { inputChange, globalkey, ...contextProps } = useFormContext()	
 	
-	useMemo(() => inputChange(groupInputs), [groupInputs])
+	useMemo(() => inputChange(fkey, groupInputs), [groupInputs]) 
 
 	return (
 		<FormContextProvider value={{
@@ -39,7 +39,7 @@ function InputGroup({ fkey, children }) {
 			inputInit:		groupInputInit,
 			inputDeinit:	groupInputDeinit,
 			inputChange:	groupInputChange,
-			globalkey:		globalkey + "." + fkey
+			globalkey:		(globalkey ? globalkey + "." : "") + fkey
 		}}
 			>
 			{children}

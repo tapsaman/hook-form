@@ -2,6 +2,61 @@ import React from "react"
 
 import HookForm, { TextInput, InputTable, PasswordInput } from "../../../src"
 
+function validateUsername(value) {
+	if (!value)
+		return {
+			pass: false,
+			message: "A value is required"
+		}
+
+	if (/\s/.test(value))
+		return {
+			pass: true,
+			message: "No spaces allowed",
+			warn: true,
+			newValue: value.replace(/\s/g, "")
+		}
+	
+	return { pass: true }
+}
+
+function validateEmail(value) {
+	if (value && !/\S+@\S+\.\S+/.test(value))
+		return {
+			pass: false,
+			message: "Not a valid email address"
+		}
+	
+	return { pass: true }
+}
+
+function validatePassword(value) {
+	if ([/[a-z]/, /[A-Z]/, /[0-9]/].find(rx => !rx.test(value)))
+		return {
+			pass: false,
+			message: "Password must include lowercase/uppercase characters and numbers"
+		}
+
+	return { pass: true }
+}
+
+function validatePasswordConfirm(value, fkey, inputs) {
+	/*
+		If you want to reference any other form inputs,
+		always check first that those inputs have a reference (= are mounted)!
+	*/
+	if (!inputs.password)
+		return { pass: false }
+
+	if (value !== inputs.password.value)
+		return {
+			pass: false,
+			message: "Passwords do not match"
+		}
+
+	return { pass: true }
+}
+
 function ValidatedForm(props) {
 	return (
 		<HookForm
@@ -13,67 +68,23 @@ function ValidatedForm(props) {
 					fkey="username"
 					label="User name"
 					maxLength={15}
-					validate={value =>
-					{
-						if (!value)
-							return {
-								pass: false,
-								message: "A value is required"
-							}
-
-						if (/\s/.test(value))
-							return {
-								pass: true,
-								message: "No spaces allowed",
-								warn: true,
-								newValue: value.replace(/\s/g, "")
-							}
-						
-						return { pass: true }
-					}}
+					validate={validateUsername}
 					/>
 				<TextInput
 					fkey="email"
 					label="Email address"
 					type="email"
-					validate={value =>
-					{
-						if (value && !/\S+@\S+\.\S+/.test(value))
-							return {
-								pass: false,
-								message: "Not a valid email address"
-							}
-						
-						return { pass: true }
-					}}
+					validate={validateEmail}
 					/>
 				<PasswordInput
 					fkey="password"
 					label="Password"
-					validate={value =>
-					{
-						if ([/[a-z]/, /[A-Z]/, /[0-9]/].find(rx => !rx.test(value)))
-							return {
-								pass: false,
-								message: "Password must include lowercase/uppercase characters and numbers"
-							}
-
-						return { pass: true }
-					}}
+					validate={validatePassword}
 					/>
 				<PasswordInput
 					fkey="password2"
 					label="Password again"
-					validate={(value, fkey, inputs) =>
-					{
-						if (inputs.password && value !== inputs.password.value)
-							return {
-								pass: false,
-								message: "Passwords do not match"
-							}
-
-						return { pass: true }
-					}}
+					validate={validatePasswordConfirm}
 					/>
 			</InputTable>
 		</HookForm>

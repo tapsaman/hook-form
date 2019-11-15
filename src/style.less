@@ -1,4 +1,7 @@
-@br-sm:		768px;
+@br-sm:		576px;
+@br-md:		768px;
+@br-lg:		992px;
+@br-xl:		1200px;
 
 .hook-form {
 
@@ -54,24 +57,48 @@
 				margin-top: 0;
 			}
 		}
+	}
 
-		.input-table {
-			width: 100%;
-			display: table;
+	.input-table.xs {
+		width: 100%;
+		display: table;
 
-			> .input-row {
-				display: table-row;
+		> .input-row {
+			display: table-row;
 
-				> .label-cell {
-					display: table-cell;
-					white-space: nowrap;
-				}
-				> .input-cell {
-					display: table-cell;
-					width: 99%;
-					vertical-align: top;
-				}
+			> .label-cell {
+				display: table-cell;
+				white-space: nowrap;
 			}
+			> .input-cell {
+				display: table-cell;
+				width: 99%;
+				vertical-align: top;
+			}
+		}
+	}
+
+	@media (min-width: @br-sm) {
+		.input-table.sm {
+			.input-table.xs;
+		}
+	}
+
+	@media (min-width: @br-md) {
+		.input-table.md {
+			.input-table.xs;
+		}
+	}
+
+	@media (min-width: @br-lg) {
+		.input-table.lg {
+			.input-table.xs;
+		}
+	}
+
+	@media (min-width: @br-xl) {
+		.input-table.xl {
+			.input-table.xs;
 		}
 	}
 

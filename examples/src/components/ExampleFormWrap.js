@@ -39,10 +39,6 @@ function ExampleFormWrap({ Form, code }) {
 					{output}
 				</SyntaxHighlighter>
 			</div>
-
-			{/*<pre className="output-container">
-				{JSON.stringify(output, null, 4)}
-			</pre>*/}
 		</div>
 	)
 }
