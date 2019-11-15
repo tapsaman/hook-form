@@ -40,7 +40,7 @@ function BasicForm(props) {
 ### HookForm props ###
 
 Name 		| Type	| Description 					| Default
-============|=======|===============================|========
+------------|-------|-------------------------------|--------
 disabled	| bool	| Disables all inputs if true	|
 buttons		| node	| Footer buttons				| <button type="submit">Submit</button>
 onChange	| func	| Runs with the form output lookup as a parameter on every change | 
@@ -51,7 +51,7 @@ onSuccess	| func	| Runs with the form output lookup as a parameter on successful
 Props consumed by the InputWrap component.
 
 Name 			| Type	| Description 					| Default
-================|=======|===============================|========
+----------------|-------|-------------------------------|--------
 fkey			| string| Singular form input ID 		| *Required*
 disabled		| bool	| Disables the input if true
 label			| node	| Label on the input row
@@ -72,7 +72,7 @@ All HookForm inputs accept a ```validate``` function property. This will be run 
 The validation function *should always return an object* that may define proerties:
 
 Name 		| Type	| Description 					
-============|=======|============
+------------|-------|------------
 pass		| bool 	| Whether the validation passes and the input value is deemed valid
 message		| node	| Shown below the input until next validation
 newValue	| any	| Overwrites the input value
