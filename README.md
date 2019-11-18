@@ -42,7 +42,7 @@ function BasicForm(props) {
 Name 		| Type	| Description 					| Default
 ------------|-------|-------------------------------|--------
 disabled	| bool	| Disables all inputs if true	|
-buttons		| node	| Footer buttons				| <button type="submit">Submit</button>
+buttons		| node	| Footer buttons				| ```<button type="submit">Submit</button>```
 onChange	| func	| Runs with the form output lookup as a parameter on every change | 
 onSuccess	| func	| Runs with the form output lookup as a parameter on successful submit | 
 
